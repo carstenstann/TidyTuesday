@@ -3,9 +3,11 @@ library(readr)
 library(janitor)
 library(skimr)
 library(dplyr)
+library(tidyr)
 library(countrycode)
 library(ggplot2) 
 library(ggrepel)
+library(grid)
 
 options(scipen = 999)
 
@@ -74,9 +76,6 @@ waste <- waste_join %>%
           plastic_waste_kg_pc_pd, total_plastic_waste_kg_pd, mismanaged_plastic_waste_tonnes,
           mismanaged_plastic_waste_kg_pc_pd, total_mismanaged_plastic_waste_kg_pd)
 
-glimpse(waste)
-skim(waste)
-
 # plots ---------------------------------------------------------------------------------
 
 ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = entity)) +
@@ -113,7 +112,7 @@ ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = entity))
    
 ggplot(waste, aes(x = gdp_pc, y = mismanaged_plastic_waste_kg_pc_pd * 365, label = entity)) +
    geom_point(aes(size = total_pop / 10^6, col = Continent)) +
-   geom_smooth(method = "loess", se = TRUE, alpha = 0.5, col = "") + 
+   geom_smooth(method = "loess", se = TRUE, alpha = 0.5) + 
    geom_label_repel(data = filter(waste, entity %in% c("China", 
                                                        "India", 
                                                        "United States",
@@ -132,9 +131,9 @@ ggplot(waste, aes(x = gdp_pc, y = mismanaged_plastic_waste_kg_pc_pd * 365, label
         subtitle = "Wealthier countries are better at managing plastic waste",
         size = "Population \n(million)") +
    theme(panel.background = element_blank(),
-         panel.grid.major = element_line(size = 0.2, linetype = 'solid',
+         panel.grid.major = element_line(size = 0.2, linetype = "solid",
                                          colour = "light gray"),
-         panel.grid.minor = element_line(size = 0.1, linetype = 'solid',
+         panel.grid.minor = element_line(size = 0.1, linetype = "solid",
                                          colour = "light gray"),
          legend.position = "right", 
          axis.line.x.bottom = element_line(colour = "black"),
