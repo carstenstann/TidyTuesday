@@ -3,8 +3,8 @@
 output: rmarkdown::github_document
 ---
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2)
+```{r, echo = FALSE, warning = FALSE, message = FALSE, fig.path = "README_figs/README-"}
+knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "README_figs/README-")
 options(scipen = 999)
 library(readr)
 library(tidyr)
