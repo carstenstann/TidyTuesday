@@ -7,7 +7,6 @@ library(tidyr)
 library(countrycode)
 library(ggplot2) 
 library(ggrepel)
-library(grid)
 
 options(scipen = 999)
 
