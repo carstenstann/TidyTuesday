@@ -20,24 +20,17 @@ pop_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySub
 gdp_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_mismanaged_waste.csv")
 gdp_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_vs_waste.csv")
 
-# clean data ----------------------------------------------------------------------------
+# clean and join data ----------------------------------------------------------------------------
 pop_mismanaged_waste <- clean_names(pop_mismanaged_waste)
 gdp_mismanaged_waste <- clean_names(gdp_mismanaged_waste)
 gdp_waste <- clean_names(gdp_waste)
 
-# only contains data on coastal population and mismanaged plastic waste tonnes for 2010
-glimpse(pop_mismanaged_waste)
+# waste data only pertains to 2010
 pop_mismanaged_waste %>% filter(!is.na(coastal_population)) %>% skim()
-
-# only contains data on mismanaged plastic waste in 2010
-glimpse(gdp_mismanaged_waste)
 gdp_mismanaged_waste %>% filter(!is.na(per_capita_mismanaged_plastic_waste_kilograms_per_person_per_day)) %>% skim()
-
-# only contains waste data for 2010
-glimpse(gdp_waste)
 gdp_waste %>% filter(!is.na(per_capita_plastic_waste_kilograms_per_person_per_day)) %>% skim()
 
-# join data -----------------------------------------------------------------------------
+# join data 
 waste_join <- gdp_waste %>% 
    filter(year == 2010) %>%
    left_join(gdp_mismanaged_waste, 
@@ -64,7 +57,7 @@ waste_join <- gdp_waste %>%
           ) %>%
    drop_na()
 
-# add additional variables to dataset
+# add continent variable 
 waste <- waste_join %>%
    mutate(gdp = gdp_pc * total_pop,
           continent1 = countrycode(entity, origin = "country.name", 
@@ -83,6 +76,7 @@ waste <- waste_join %>%
 
 # plots ---------------------------------------------------------------------------------
 glimpse(waste)
+# choose countries to label
 labs <- filter(waste, entity %in% c("United States",
                                     "China",
                                     "India",
