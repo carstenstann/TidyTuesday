@@ -2,4 +2,4 @@
 Global Plastic Waste - Week 21
 ------------------------------
 
-<img src="README_figs/README-unnamed-chunk-2-1.png" width="960" />
+![Plastic Waste](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/Global%20Plastic%20Waste.png)

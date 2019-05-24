@@ -11,11 +11,20 @@ library(grid)
 
 options(scipen = 999)
 
-# import files 
-pop_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/coastal-population-vs-mismanaged-plastic.csv")
-gdp_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-mismanaged-plastic-waste-vs-gdp-per-capita.csv")
-gdp_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-plastic-waste-vs-gdp-per-capita.csv")
+# import files --------------------------------------------------------------------------
+# pop_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/coastal-population-vs-mismanaged-plastic.csv")
+# gdp_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-mismanaged-plastic-waste-vs-gdp-per-capita.csv")
+# gdp_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-plastic-waste-vs-gdp-per-capita.csv")
 
+# write_csv(pop_mismanaged_waste, path = "/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/pop_vs_waste.csv")
+# write_csv(gdp_mismanaged_waste, path = "/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_mismanaged_waste.csv")
+# write_csv(gdp_waste, path = "/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_vs_waste.csv")
+
+pop_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/pop_vs_waste.csv")
+gdp_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_mismanaged_waste.csv")
+gdp_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_vs_waste.csv")
+
+# clean data ----------------------------------------------------------------------------
 pop_mismanaged_waste <- clean_names(pop_mismanaged_waste)
 gdp_mismanaged_waste <- clean_names(gdp_mismanaged_waste)
 gdp_waste <- clean_names(gdp_waste)
@@ -77,17 +86,25 @@ waste <- waste_join %>%
           mismanaged_plastic_waste_kg_pc_pd, total_mismanaged_plastic_waste_kg_pd)
 
 # plots ---------------------------------------------------------------------------------
+glimpse(waste)
+labs <- filter(waste, total_pop >= 80000000)
 
+# plot for Plastic Waste vs GDP
 ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = entity)) +
-   geom_point(aes(size = total_pop / 10^6, col = Continent)) +
-   geom_smooth(method = "lm", se = TRUE) + 
-   geom_label_repel(data = filter(waste, entity %in% c("China", 
-                                                       "India", 
-                                                       "United States",
-                                                       "Denmark",
-                                                       "Sri Lanka")),
-                    size = 4,
-                    point.padding = 0.5,
+   geom_point(aes(size = mismanaged_plastic_waste_tonnes, col = Continent)) +
+   stat_smooth(geom = "line", 
+               color = "blue", 
+               alpha = 0.9, 
+               method = "lm", 
+               show.legend = FALSE) +
+   geom_smooth(method = "lm", 
+               color = NA, 
+               alpha = 0.2, 
+               show.legend = FALSE)  + 
+   geom_label_repel(data = labs,
+                    size = 3,
+                    point.padding = 0.8,
+                    force = 100,
                     segment.size = 0.25,
                     segment.color = "grey50",
                     direction = "both") +
@@ -97,11 +114,13 @@ ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = entity))
         y = "Total Plastic Waste per capita (kg/year)",
         title = "Global Plastic Waste in 2010",
         subtitle = "Wealthier countries produce more plastic waste",
-        size = "Population \n(million)") +
+        size = "Mismanaged Plastic Waste \n(tons)") +
    theme(panel.background = element_blank(),
-         panel.grid.major = element_line(size = 0.2, linetype = 'solid',
+         panel.grid.major = element_line(size = 0.2, 
+                                         linetype = 'solid',
                                          colour = "light gray"),
-         panel.grid.minor = element_line(size = 0.1, linetype = 'solid',
+         panel.grid.minor = element_line(size = 0.1, 
+                                         linetype = 'solid',
                                          colour = "light gray"),
          legend.position = "right", 
          axis.line.x.bottom = element_line(colour = "black"),
@@ -109,18 +128,23 @@ ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = entity))
    guides(col = guide_legend(override.aes = list(size = 2.5)),
           size = guide_legend(override.aes = list()))
 
-   
+# plot for Mismanaged Waste vs GDP
 ggplot(waste, aes(x = gdp_pc, y = mismanaged_plastic_waste_kg_pc_pd * 365, label = entity)) +
-   geom_point(aes(size = total_pop / 10^6, col = Continent)) +
-   geom_smooth(method = "loess", se = TRUE, alpha = 0.5) + 
-   geom_label_repel(data = filter(waste, entity %in% c("China", 
-                                                       "India", 
-                                                       "United States",
-                                                       "Denmark",
-                                                       "Sri Lanka")),
-                    size = 4,
-                    point.padding = 0.5,
+   geom_point(aes(size = mismanaged_plastic_waste_tonnes, col = Continent)) +
+   stat_smooth(geom = "line", 
+               color = "blue", 
+               alpha = 0.9, 
+               method = "loess", 
+               show.legend = FALSE) +
+   geom_smooth(method = "loess", 
+               color = NA, 
+               alpha = 0.2, 
+               show.legend = FALSE) + 
+   geom_label_repel(data = labs,
+                    size = 3,
+                    point.padding = 0.8,
                     segment.size = 0.25,
+                    force = 100,
                     segment.color = "grey50",
                     direction = "both") +
    scale_y_log10() +
@@ -129,16 +153,17 @@ ggplot(waste, aes(x = gdp_pc, y = mismanaged_plastic_waste_kg_pc_pd * 365, label
         y = "Mismanaged Plastic Waste per capita (kg/year)",
         title = "Global Mismanaged Plastic Waste in 2010",
         subtitle = "Wealthier countries are better at managing plastic waste",
-        size = "Population \n(million)") +
+        size = "Mismanaged Plastic Waste \n(tons)") +
    theme(panel.background = element_blank(),
-         panel.grid.major = element_line(size = 0.2, linetype = "solid",
+         panel.grid.major = element_line(size = 0.2, 
+                                         linetype = "solid",
                                          colour = "light gray"),
-         panel.grid.minor = element_line(size = 0.1, linetype = "solid",
+         panel.grid.minor = element_line(size = 0.1, 
+                                         linetype = "solid",
                                          colour = "light gray"),
          legend.position = "right", 
          axis.line.x.bottom = element_line(colour = "black"),
          axis.line.y.left = element_line(colour = "black")) +
    guides(col = guide_legend(override.aes = list(size = 2.5)),
           size = guide_legend(override.aes = list()))
-
 
