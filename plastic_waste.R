@@ -16,9 +16,9 @@ pop_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascie
 gdp_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-mismanaged-plastic-waste-vs-gdp-per-capita.csv")
 gdp_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-plastic-waste-vs-gdp-per-capita.csv")
 
-pop_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/pop_vs_waste.csv")
-gdp_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_mismanaged_waste.csv")
-gdp_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_vs_waste.csv")
+# pop_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/pop_vs_waste.csv")
+# gdp_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_mismanaged_waste.csv")
+# gdp_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_vs_waste.csv")
 
 # clean and join data ----------------------------------------------------------------------------
 pop_mismanaged_waste <- clean_names(pop_mismanaged_waste)
