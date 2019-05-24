@@ -12,13 +12,9 @@ library(grid)
 options(scipen = 999)
 
 # import files --------------------------------------------------------------------------
-# pop_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/coastal-population-vs-mismanaged-plastic.csv")
-# gdp_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-mismanaged-plastic-waste-vs-gdp-per-capita.csv")
-# gdp_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-plastic-waste-vs-gdp-per-capita.csv")
-
-# write_csv(pop_mismanaged_waste, path = "/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/pop_vs_waste.csv")
-# write_csv(gdp_mismanaged_waste, path = "/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_mismanaged_waste.csv")
-# write_csv(gdp_waste, path = "/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_vs_waste.csv")
+pop_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/coastal-population-vs-mismanaged-plastic.csv")
+gdp_mismanaged_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-mismanaged-plastic-waste-vs-gdp-per-capita.csv")
+gdp_waste <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-plastic-waste-vs-gdp-per-capita.csv")
 
 pop_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/pop_vs_waste.csv")
 gdp_mismanaged_waste <- read_csv("/Users/Carsten/Documents/GitHub/TidyTuesdaySubmissions/data/gdp_mismanaged_waste.csv")
