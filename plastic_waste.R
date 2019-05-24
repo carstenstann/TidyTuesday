@@ -123,7 +123,7 @@ p1 <- ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = en
    labs(x = "GDP per capita", 
         y = "Total Plastic Waste per capita (kg/year)",
         title = "Global Plastic Waste in 2010",
-        subtitle = "Wealthier countries produce more plastic waste",
+        subtitle = "Wealthier countries produce more plastic waste per capita",
         size = "Mismanaged Plastic Waste \n(tons)") +
    theme(panel.background = element_blank(),
          panel.grid.major = element_line(size = 0.2, 
