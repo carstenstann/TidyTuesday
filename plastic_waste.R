@@ -87,10 +87,20 @@ waste <- waste_join %>%
 
 # plots ---------------------------------------------------------------------------------
 glimpse(waste)
-labs <- filter(waste, total_pop >= 80000000)
+labs <- filter(waste, entity %in% c("United States",
+                                    "China",
+                                    "India",
+                                    "Germany",
+                                    "Japan",
+                                    "Sri Lanka",
+                                    "Mexico",
+                                    "Canada",
+                                    "Trinidad and Tobago",
+                                    "Nigeria", 
+                                    "Haiti"))
 
 # plot for Plastic Waste vs GDP
-ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = entity)) +
+p1 <- ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = entity)) +
    geom_point(aes(size = mismanaged_plastic_waste_tonnes, col = Continent)) +
    stat_smooth(geom = "line", 
                color = "blue", 
@@ -102,10 +112,10 @@ ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = entity))
                alpha = 0.2, 
                show.legend = FALSE)  + 
    geom_label_repel(data = labs,
-                    size = 3,
-                    point.padding = 0.8,
-                    force = 100,
-                    segment.size = 0.25,
+                    size = 2.5,
+                    point.padding = 0.2,
+                    box.padding = 0.4,
+                    segment.size = 0.3,
                     segment.color = "grey50",
                     direction = "both") +
    scale_y_log10()+
@@ -129,7 +139,7 @@ ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = entity))
           size = guide_legend(override.aes = list()))
 
 # plot for Mismanaged Waste vs GDP
-ggplot(waste, aes(x = gdp_pc, y = mismanaged_plastic_waste_kg_pc_pd * 365, label = entity)) +
+p2 <- ggplot(waste, aes(x = gdp_pc, y = mismanaged_plastic_waste_kg_pc_pd * 365, label = entity)) +
    geom_point(aes(size = mismanaged_plastic_waste_tonnes, col = Continent)) +
    stat_smooth(geom = "line", 
                color = "blue", 
@@ -141,10 +151,10 @@ ggplot(waste, aes(x = gdp_pc, y = mismanaged_plastic_waste_kg_pc_pd * 365, label
                alpha = 0.2, 
                show.legend = FALSE) + 
    geom_label_repel(data = labs,
-                    size = 3,
-                    point.padding = 0.8,
-                    segment.size = 0.25,
-                    force = 100,
+                    size = 2.5,
+                    point.padding = 0.2,
+                    box.padding = 0.4,
+                    segment.size = 0.3,
                     segment.color = "grey50",
                     direction = "both") +
    scale_y_log10() +
@@ -167,3 +177,4 @@ ggplot(waste, aes(x = gdp_pc, y = mismanaged_plastic_waste_kg_pc_pd * 365, label
    guides(col = guide_legend(override.aes = list(size = 2.5)),
           size = guide_legend(override.aes = list()))
 
+ggarrange(p1, p2, ncol = 2, common.legend = TRUE, legend = "bottom")
