@@ -7,7 +7,6 @@ library(tidyr)
 library(countrycode)
 library(ggplot2) 
 library(ggrepel)
-library(grid)
 
 options(scipen = 999)
 
@@ -74,8 +73,9 @@ waste <- waste_join %>%
           plastic_waste_kg_pc_pd, total_plastic_waste_kg_pd, mismanaged_plastic_waste_tonnes,
           mismanaged_plastic_waste_kg_pc_pd, total_mismanaged_plastic_waste_kg_pd)
 
-# plots ---------------------------------------------------------------------------------
 glimpse(waste)
+
+# plots ---------------------------------------------------------------------------------
 # choose countries to label
 labs <- filter(waste, entity %in% c("United States",
                                     "China",
