@@ -44,14 +44,14 @@ ggplot(top_wines, aes(x = points, y = continent)) +
    geom_density_ridges(aes(fill = continent, color = continent), 
                        alpha = 0.8, 
                        show.legend = FALSE) + 
-   facet_wrap(~variety, ncol = 2, dir = "v") + 
+   facet_wrap(~variety, ncol = 4) + 
    scale_fill_manual(values = wes_palette("Royal1", n = 4), 
                      aesthetics = c("fill", "color")) +
    labs(title = "Wine Ratings by Continent and Variety",
         x = "Score",
         y = NULL,
         caption = "WineEnthusiast ratings, source: kaggle.com") +
-   theme(plot.title = element_text(size = 14),
+   theme(plot.title = element_text(size = 16, hjust = 0.5),
          axis.title.x = element_text(size = 10),
          plot.caption = element_text(size = 6),
          axis.line.y = element_blank(), 
