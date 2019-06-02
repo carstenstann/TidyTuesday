@@ -1,10 +1,12 @@
 
 ---
 output: rmarkdown::github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE, fig.path = "README_figs/README-"}
-knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "README_figs/README-")
+knitr::opts_chunk$set(collapse=TRUE, fig.retina=2, fig.path = "README_figs/README-")
 
 
 ```
@@ -12,7 +14,9 @@ knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "REA
 ## Global Plastic Waste - Week 21
 
 ![Plastic Waste](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/Global Plastic Waste.png)
+
 ## Wine Ratings - Week 22
+
 ![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/WineRatings.png)
 
 
