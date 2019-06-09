@@ -7,6 +7,7 @@ library(tidyr)
 library(countrycode)
 library(ggplot2) 
 library(ggrepel)
+library(ggpubr)
 
 options(scipen = 999)
 
@@ -162,7 +163,8 @@ p1 <- ggplot(waste, aes(x = gdp_pc, y = plastic_waste_kg_pc_pd * 365, label = en
                                       colour = "light gray"),
       legend.position = "right", 
       axis.line.x.bottom = element_line(colour = "black"),
-      axis.line.y.left = element_line(colour = "black")) +
+      axis.line.y.left = element_line(colour = "black")
+      ) +
    guides(col = guide_legend(override.aes = list(size = 2.5)),
           size = guide_legend(override.aes = list()))
 
@@ -217,4 +219,4 @@ p2 <- ggplot(waste, aes(x = gdp_pc, y = mismanaged_plastic_waste_kg_pc_pd * 365,
       size = guide_legend(override.aes = list())
       )
 
-ggarrange(p1, p2, ncol = 2, common.legend = TRUE, legend = "bottom")
+ggarrange(p1, p2, nrow = 2, common.legend = TRUE, legend = "right")

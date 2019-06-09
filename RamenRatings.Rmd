@@ -1,0 +1,113 @@
+---
+title: "RamenRatings"
+author: "Carsten Stann"
+date: "6/5/2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(skimr)
+library(broom)
+library(ggthemes)
+library(cowplot)
+```
+
+```{r}
+ramen_ratings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-04/ramen_ratings.csv")
+
+```
+
+USA coded as both USA and United States.
+```{r}
+ramen <- ramen_ratings %>%
+   mutate(
+      country = recode(country, USA = "United States") %>% 
+         fct_lump(15) %>% fct_relevel("Other"),
+      style = fct_lump(style, 4),
+      brand = fct_lump(brand, 20)
+   ) %>%
+   drop_na()
+
+skim(ramen)
+```
+
+Estimate rating stars using country or origin in a linear model
+```{r}
+mod <- lm(stars ~ country, ramen) %>%
+   tidy(conf.int = TRUE) %>%
+   rename(country = term) %>% 
+   mutate(country = str_remove(country, "country"), 
+          country = recode(country, "(Intercept)" = "Intercept"),
+          Choice = case_when(estimate > 0 & conf.low > 0 ~ "Preferred",
+                             conf.low < 0 & conf.high > 0 ~ "Indifferent",
+                             conf.high < 0 ~ "Avoid"),
+          choice = fct_relevel(Choice, "Preferred", "Indifferent", "Avoid"))
+```
+
+Setup plot theme
+```{r}
+my_theme <- theme_wsj() +
+   theme(text = element_text(family = "mono"), 
+         title = element_text(size = 10),
+         plot.title = element_text(size = 12),
+         plot.subtitle = element_text(size = 10, face = "plain"),
+         axis.text = element_text(size = 8.5, family = "mono", face = "plain"),
+         legend.text = element_text(size = 8),
+         legend.position = "bottom",
+         legend.margin = margin(0,0,0,0, "cm"),
+         panel.grid.major.x = element_blank(),
+         panel.grid.major.y = element_line(size = .2),
+         panel.grid.minor.x = element_blank(),
+         plot.caption = element_text(hjust = 0, face = "italic")
+   )
+```
+
+Generate plots
+```{r}
+myColors <- c("#FF2700", "orange", "#77AB43")
+
+coefs <- mod %>% 
+   filter(country != "Intercept") %>% 
+ggplot(aes(y = fct_reorder(country, estimate), x = estimate, col = Choice)) +
+   geom_vline(xintercept = 0, lty = 2, alpha = 0.8) +
+   geom_point(size = 1.8) +
+   geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), 
+                  size = .5, alpha = 0.8) +
+   labs(title = "Ramen Ratings Predictor: Country of Origin",
+        subtitle = "Effect relative to all other countries grouped as reference level",
+        x = "Estimated Impact on Ramen Rating", 
+        y = NULL) +
+   scale_colour_manual(values = myColors) +
+   my_theme
+ 
+num_reviews <- ramen %>% 
+   mutate(country = fct_infreq(country) %>% fct_rev()) %>% 
+ggplot(aes(country)) + 
+   geom_bar() +
+   coord_flip() +
+   scale_colour_manual(values = myColors) +
+   labs(title = "Number of reviews",
+        caption = "") +
+   my_theme + 
+   theme(plot.margin = margin(0, .1, .1, .5, "cm"))
+
+density <- ggplot(ramen, aes(stars)) +
+   geom_density(fill = "dark gray") + 
+   labs(title = "Distribution of Ratings",
+        caption = "Data: TheRamenRater.com") + 
+   my_theme + 
+   theme(plot.margin = margin(0, .5, .1, .1, "cm"))
+         
+```
+
+Layout plots in grid
+```{r}
+plot_grid(coefs, plot_grid(num_reviews, density), ncol = 1, rel_heights = c(1.45, 1))
+```
+
+
+
