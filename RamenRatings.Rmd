@@ -62,7 +62,7 @@ my_theme <- theme_wsj() +
          panel.grid.major.x = element_blank(),
          panel.grid.major.y = element_line(size = .2),
          panel.grid.minor.x = element_blank(),
-         plot.caption = element_text(hjust = 0, face = "italic")
+         plot.caption = element_text(hjust = 1, face = "italic")
    )
 ```
 
