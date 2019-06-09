@@ -19,4 +19,7 @@ knitr::opts_chunk$set(collapse=TRUE, fig.retina=2, fig.path = "README_figs/READM
 
 ![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/WineRatings.png)
 
+## Ramen Ratings - Week 23
+
+![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/RamenRatings.png)
 

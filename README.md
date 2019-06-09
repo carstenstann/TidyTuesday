@@ -8,3 +8,8 @@ Wine Ratings - Week 22
 ----------------------
 
 ![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/WineRatings.png)
+
+Ramen Ratings - Week 23
+-----------------------
+
+![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/RamenRatings.png)
