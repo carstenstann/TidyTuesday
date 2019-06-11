@@ -109,5 +109,8 @@ Layout plots in grid
 plot_grid(coefs, plot_grid(num_reviews, density), ncol = 1, rel_heights = c(1.45, 1))
 ```
 
+```{r}
+
+```
 
 
