@@ -1,0 +1,57 @@
+---
+title: "Meteorites"
+author: "Carsten Stann"
+date: "6/11/2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Tidy tuesday: Meteorites - week 06-11-2019 
+
+library(tidyverse)
+library(skimr)
+library(maps)
+```
+Import & glimpse data
+```{r}
+meteor<- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-11/meteorites.csv")
+
+glimpse(meteor)
+meteor
+skim(meteor)
+summary(meteor)
+```
+
+```{r}
+ggplot(meteor, aes(log10(mass))) +
+   geom_histogram()
+
+meteor %>% filter(year >= 1900 & year != 2101) %>% 
+ggplot(aes(year)) +
+   geom_histogram(binwidth = 1)
+
+```
+
+Plot on world map
+```{r}
+world <- map_data("world")
+
+world %>% arrange(desc(lat))
+
+meteor.plot <- filter(meteor, between(long, -200, 200) & lat >= -85.1)
+
+ggplot(world) +
+   geom_polygon(aes(x = long, y = lat, group = group)) +
+   geom_point(data = meteor.plot, aes(x = long, y = lat), size = .05, color = "red") +
+   theme_minimal() +
+   ylim(c(-84.9, 83.59961))
+
+```
+
+```{r}
+meteor %>% arrange(lat) %>% View()
+```
+
