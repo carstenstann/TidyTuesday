@@ -18,7 +18,6 @@ library(cowplot)
 
 ```{r}
 ramen_ratings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-04/ramen_ratings.csv")
-
 ```
 
 USA coded as both USA and United States.
