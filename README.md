@@ -13,3 +13,8 @@ Ramen Ratings - Week 23
 -----------------------
 
 ![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/RamenRatings.png)
+
+Meteorite Landings - Week 24
+----------------------------
+
+![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/Meteorites.png)
