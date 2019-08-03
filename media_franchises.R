@@ -13,7 +13,6 @@ media_franchises <- readr::read_csv("https://raw.githubusercontent.com/rfordatas
 # summarise -----------------------------------------------------------------------------
 skim(media_franchises)
 
-
 # plot theme ----------------------------------------------------------------------------
 
 my_theme <- theme_wsj() +
