@@ -6,7 +6,7 @@ library(tidyverse)
 library(lubridate)
 library(skimr)
 library(ggrepel)
-library(ggbeeswarm)
+library(patchwork)
 
 # import --------------------------------------------------------------------------------
 
@@ -81,15 +81,115 @@ games %>%
       geom_label_repel(aes(x = year, y = average_playtime, label = game), cex = 2.5)
 
 
-today() - as.Date("2019-08-01", format = "%Y-%m-%d")
 
-today() - games$release_date
+# filter for highest average playtime in each year for data labels ----------------------
 
-ggplot(games, aes(x = days_since_release, y = average_playtime)) +
-   geom_point() +
-   scale_y_log10()
+top_game_by_year <- games %>% 
+   filter(!is.na(year)) %>% 
+   group_by(year) %>% 
+   top_n(1, average_playtime) %>% 
+   mutate(label = paste0(game, " (", year, "): ", average_playtime, " minutes"))
+   
+# custom theme --------------------------------------------------------------------------
+# based on NASA Design: https://nasa.github.io/nasawds-site/components/colors/
 
+my_theme <- theme(
+   rect = element_rect(fill = "#323a45", 
+                       colour = "#f1f1f1", 
+                       size = 0.4, 
+                       linetype = 1),
+   text = element_text(family = "Source Sans Pro Semibold", 
+                       face = "plain", 
+                       colour = "white", 
+                       size = 12, 
+                       lineheight = 0.9, 
+                       hjust = 0.5, 
+                       vjust = 0.5, 
+                       angle = 0, 
+                       margin = margin(),  
+                       debug = FALSE),
+   axis.line = element_blank(), 
+   axis.line.x = NULL, 
+   axis.line.y = NULL,
+   axis.text = element_text(size = 14, 
+                            colour = "#d6d7d9"),
+   axis.ticks = element_line(colour = "#d6d7d9", 
+                             size = 0.3),
+   axis.title = element_text(margin = unit(c(3.5, 0, 0, 0), "mm"), 
+                               vjust = 1, 
+                               size = 16, 
+                               face = "bold"),
+   legend.background = element_rect(colour = NA),
+   legend.text = element_text(size = rel(0.9)), 
+   legend.title = element_text(hjust = 0, 
+                               size = rel(1)), 
+   legend.position = "right", 
+   panel.background = element_rect(fill = NA, 
+                                   colour = NA), 
+   panel.border = element_rect(colour = "#d6d7d9", 
+                               fill = NA, 
+                               size = rel(1)),
+   panel.grid = element_blank(),
+   panel.grid.major = element_line(colour = "transparent"), 
+   panel.grid.minor = element_line(colour = "transparent"), 
+   strip.background = element_rect(fill = "#d6d7d9", 
+                                   colour = "#d6d7d9"), 
+   strip.text = element_text(colour = "white", 
+                             size = 14, 
+                             face = "bold"),
+   plot.background = element_rect(colour = NA), 
+   plot.title = element_text(size = 24, 
+                             face = "bold"),
+   plot.subtitle = element_text(size = 18), 
+   plot.caption = element_text(size = rel(0.9), 
+                               color = "white")
+)
 
+# Plot: playtime by year ----------------------------------------------------------------
+filter(games, !is.na(year), average_playtime > 0) %>% 
+ggplot(aes(x = factor(year), y = average_playtime, col = factor(year))) +
+   geom_point(alpha = 0.4) +
+   geom_label_repel(
+      data = top_game_by_year, 
+                    aes(
+                       x = factor(year), 
+                       y = average_playtime, 
+                       label = label
+                     ), 
+                    cex = 3,
+                    box.padding = 0.25,
+                    label.padding = 0.25, 
+                    point.padding = 0.5,
+                    direction = "x",
+                    min.segment.length = unit(0, 'lines')) +
+   coord_flip() +
+   labs(x = "Release Year",
+        y = "Average Playtime",
+        title = "Steam Spy PC Games By Release Year",
+        subtitle = "Average Playtime From July 1 - 15, 2019") +
+   my_theme
+      
+title <- ggplot(data.frame(1:2, y = 1:10)) +
+   labs(x = NULL,
+        y = NULL,
+        title = "Steam Spy PC Games By Release Year: Average Playtime From July 1 - 15, 2019") +
+   theme(line = element_blank(),
+         plot.background = element_rect(fill = "transparent", color = "transparent"),
+         panel.background = element_rect(fill = "transparent"),
+         panel.border = element_rect(color = "transparent"),
+         axis.text = element_blank())
+   
+   
+caption <- ggplot(data.frame(x = 1:2, y = 1:10)) +
+   labs(x = NULL, y = NULL,
+        caption = "Visualization by @carstenstann | Data: Steam Spy") +
+   theme(line = element_blank(),
+         plot.background = element_rect(fill = "transparent", color = "transparent"),
+         panel.background = element_rect(fill = "transparent"),
+         panel.border = element_rect(color = "transparent"),
+         axis.text = element_blank())
+
+title + playtime_by_year + caption + plot_layout(widths = c(0, 1, 0), nrow = 1)
 
 
 
