@@ -23,7 +23,7 @@ import
 games <- import %>% 
    mutate(release_date = parse_date(release_date, format = "%b %d, %Y"),
           month = month(release_date),
-          year = year(release_date) %>% factor(), 
+          year = year(release_date), 
           days_since_release = ifelse(is.na(release_date), NA, today() - release_date))
 
 # summarise -----------------------------------------------------------------------------
@@ -74,39 +74,46 @@ ggplot(aes(x = year, y = average_playtime)) +
 # filter for highest average playtime in each year for data labels ----------------------
 
 top_game_by_year <- games %>% 
-   filter(!is.na(year)) %>% 
+   filter(!is.na(year), year >= 2010) %>% 
    group_by(year) %>% 
    top_n(1, average_playtime) %>% 
    mutate(label = paste0(game, " (", year, "): ", average_playtime, " minutes"))
    
 # Plot: playtime by year ----------------------------------------------------------------
-filter(games, !is.na(year), average_playtime > 0) %>% 
+filter(games, !is.na(year), year >= 2010, average_playtime > 0) %>% 
 ggplot(aes(x = factor(year), y = average_playtime, col = factor(year))) +
-   geom_point(alpha = 0.5) +
+   geom_point(alpha = 0.5, show.legend = FALSE) +
    geom_label_repel(data = top_game_by_year, 
                     mapping = aes(x = factor(year),
                                   y = average_playtime, 
                                   label = label), 
-                    cex = 3,
+                    cex = 2,
+                    fill = "transparent",
                     box.padding = 0.25,
                     label.padding = 0.25, 
-                    point.padding = 0.5,
+                    point.padding = 1,
                     direction = "x",
                     min.segment.length = unit(0, 'lines'),
                     show.legend = FALSE) +
-   scale_y_continuous(expand = c(0,0), limits = c(-50, NA)) +
-   labs(x = "Release Year",
-        y = "Average Playtime",
-        title = "Steam Spy PC Games By Release Year",
-        subtitle = "Average Playtime From July 1 - 15, 2019",
-        caption = "Visualization by @carstenstann") +
+   #geom_label(data = top_game_by_year, 
+   #           mapping = aes(x = factor(year),
+   #                         y = average_playtime,
+   #                         label = label),
+   #           nudge_x = .4,
+   #           cex = 2.5,
+   #           fill = "transparent",
+   #           show.legend = FALSE) +
+   scale_y_continuous(expand = c(0,0), limits = c(-50, 5900)) +
    coord_flip() +
    theme(
       panel.grid.major.y = element_blank(),
       panel.grid.minor.y = element_blank(),
-      axis.line.y = element_blank(),
+      panel.grid.major.x = element_blank(),
       axis.ticks.y = element_blank()
    )
+
+filter(games, year == 2009) %>% 
+   arrange(desc(average_playtime))
       
 title <- ggplot(data.frame(1:2, y = 1:10)) +
    labs(x = NULL,
