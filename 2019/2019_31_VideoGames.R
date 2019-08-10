@@ -8,10 +8,7 @@ library(skimr)
 library(RColorBrewer)
 library(ggExtra)
 library(ggrepel)
-<<<<<<< HEAD
-=======
 library(patchwork)
->>>>>>> c5546b8eeee5d11ab9c13054df8603b2908425ab
 
 # import --------------------------------------------------------------------------------
 
@@ -86,28 +83,8 @@ ggplot(aes(x = year, y = average_playtime)) +
         y = "Average Playing Time") +
    theme_minimal()
 
-
-
-
-display.brewer.all(colorblindFriendly = T)
-
-<<<<<<< HEAD
-
-filter(games, year == 2005) %>% 
-   arrange(desc(average_playtime))
-
-=======
->>>>>>> c5546b8eeee5d11ab9c13054df8603b2908425ab
-
-# filter for highest average playtime in each year for data labels ----------------------
-
-top_game_by_year <- games %>% 
-   filter(!is.na(year)) %>% 
-   group_by(year) %>% 
-   top_n(1, average_playtime) %>% 
-   mutate(label = paste0(game, " (", year, "): ", average_playtime, " minutes"))
-   
 # custom theme --------------------------------------------------------------------------
+
 # based on NASA Design: https://nasa.github.io/nasawds-site/components/colors/
 
 my_theme <- theme(
@@ -133,9 +110,9 @@ my_theme <- theme(
    axis.ticks = element_line(colour = "#d6d7d9", 
                              size = 0.3),
    axis.title = element_text(margin = unit(c(3.5, 0, 0, 0), "mm"), 
-                               vjust = 1, 
-                               size = 12, 
-                               face = "bold"),
+                             vjust = 1, 
+                             size = 12, 
+                             face = "bold"),
    legend.background = element_rect(colour = NA),
    legend.text = element_text(size = rel(0.9)), 
    legend.title = element_text(size = 12), 
@@ -161,6 +138,15 @@ my_theme <- theme(
                                color = "white")
 )
 
+
+# filter for highest average playtime in each year for data labels ----------------------
+
+top_game_by_year <- games %>% 
+   filter(!is.na(year)) %>% 
+   group_by(year) %>% 
+   top_n(1, average_playtime) %>% 
+   mutate(label = paste0(game, " (", year, "): ", average_playtime, " minutes"))
+   
 # Plot: playtime by year ----------------------------------------------------------------
 filter(games, !is.na(year), average_playtime > 0) %>% 
 ggplot(aes(x = factor(year), y = average_playtime, col = factor(year))) +
