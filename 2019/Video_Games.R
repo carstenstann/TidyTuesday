@@ -5,8 +5,9 @@
 library(tidyverse)
 library(lubridate)
 library(skimr)
+library(RColorBrewer)
+library(ggExtra)
 library(ggrepel)
-library(ggbeeswarm)
 
 # import --------------------------------------------------------------------------------
 
@@ -19,7 +20,7 @@ import
 games <- import %>% 
    mutate(release_date = parse_date(release_date, format = "%b %d, %Y"),
           month = month(release_date),
-          year = year(release_date), 
+          year = year(release_date) %>% factor(), 
           days_since_release = ifelse(is.na(release_date), NA, today() - release_date))
 
 # summarise -----------------------------------------------------------------------------
@@ -50,15 +51,30 @@ games %>%
            y = "Number of Games Played (July 1 - 15, 2019)",
            x = "Release Year")
 
-ggplot(games, aes(x = factor(year), y = average_playtime, fill = factor(year))) +
-   geom_violin() +
-   scale_y_log10() +
-   coord_flip()
 
-filter(games, average_playtime > 0) %>% 
-ggplot(aes(x = factor(year), y = average_playtime)) +
+plot_data <- filter(games, average_playtime > 0, !is.na(year))
+(plot <-  ggplot(plot_data, aes(x = year, y = average_playtime)) +
+      geom_point() +
+      scale_y_log10() +
+      theme_minimal()
+)   
+   
+ggMarginal(plot, type = "density")
+
+
+
+
+
+
+
+
+
+
+
+filter(games, average_playtime > 0, !is.na(year)) %>% 
+ggplot(aes(x = year, y = average_playtime)) +
+   geom_jitter(alpha = 0.4) +
    geom_boxplot(alpha = 0) +
-   geom_jitter(aes(col = factor(year)), alpha = 0.5) +
    scale_y_log10() +
    coord_flip() +
    labs(title = "PC Game Average Play Time By Release Year", 
@@ -67,27 +83,14 @@ ggplot(aes(x = factor(year), y = average_playtime)) +
    theme_minimal()
 
 
+
+
+display.brewer.all(colorblindFriendly = T)
+
+
 filter(games, year == 2005) %>% 
    arrange(desc(average_playtime))
 
-games %>% 
-   group_by(year) %>% 
-   arrange(desc(average_playtime)) %>% 
-   top_n(1, average_playtime) %>% 
-   ungroup() %>% 
-   arrange(year) %>% 
-   ggplot(aes(x = year, y = average_playtime)) +
-      geom_point() +
-      geom_label_repel(aes(x = year, y = average_playtime, label = game), cex = 2.5)
-
-
-today() - as.Date("2019-08-01", format = "%Y-%m-%d")
-
-today() - games$release_date
-
-ggplot(games, aes(x = days_since_release, y = average_playtime)) +
-   geom_point() +
-   scale_y_log10()
 
 
 
