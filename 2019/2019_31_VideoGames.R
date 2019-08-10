@@ -10,10 +10,12 @@ library(ggExtra)
 library(ggrepel)
 library(patchwork)
 
+## ggplot theme updates
+source("./Theme/theme_nasa.R")
+
 # import --------------------------------------------------------------------------------
 
 import <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-07-30/video_games.csv")
-
 import
 
 # clean ---------------------------------------------------------------------------------
@@ -27,7 +29,6 @@ games <- import %>%
 # summarise -----------------------------------------------------------------------------
 
 games
-
 skim(games)
 
 # exploratory plots ---------------------------------------------------------------------
@@ -54,23 +55,10 @@ games %>%
 
 
 plot_data <- filter(games, average_playtime > 0, !is.na(year))
-(plot <-  ggplot(plot_data, aes(x = year, y = average_playtime)) +
+ggplot(plot_data, aes(x = year, y = average_playtime)) +
       geom_point() +
       scale_y_log10() +
       theme_minimal()
-)   
-   
-ggMarginal(plot, type = "density")
-
-
-
-
-
-
-
-
-
-
 
 filter(games, average_playtime > 0, !is.na(year)) %>% 
 ggplot(aes(x = year, y = average_playtime)) +
@@ -83,62 +71,6 @@ ggplot(aes(x = year, y = average_playtime)) +
         y = "Average Playing Time") +
    theme_minimal()
 
-# custom theme --------------------------------------------------------------------------
-
-# based on NASA Design: https://nasa.github.io/nasawds-site/components/colors/
-
-my_theme <- theme(
-   rect = element_rect(fill = "#323a45", 
-                       colour = "#f1f1f1", 
-                       size = 0.4, 
-                       linetype = 1),
-   text = element_text(family = "Source Sans Pro Semibold", 
-                       face = "plain", 
-                       colour = "white", 
-                       size = 10, 
-                       lineheight = 0.9, 
-                       hjust = 0.5, 
-                       vjust = 0.5, 
-                       angle = 0, 
-                       margin = margin(),  
-                       debug = FALSE),
-   axis.line = element_blank(), 
-   axis.line.x = NULL, 
-   axis.line.y = NULL,
-   axis.text = element_text(size = 10, 
-                            colour = "#d6d7d9"),
-   axis.ticks = element_line(colour = "#d6d7d9", 
-                             size = 0.3),
-   axis.title = element_text(margin = unit(c(3.5, 0, 0, 0), "mm"), 
-                             vjust = 1, 
-                             size = 12, 
-                             face = "bold"),
-   legend.background = element_rect(colour = NA),
-   legend.text = element_text(size = rel(0.9)), 
-   legend.title = element_text(size = 12), 
-   legend.position = "right", 
-   panel.background = element_rect(fill = NA, 
-                                   colour = NA), 
-   panel.border = element_rect(colour = "#d6d7d9", 
-                               fill = NA, 
-                               size = rel(1)),
-   panel.grid = element_blank(),
-   panel.grid.major = element_line(colour = "transparent"), 
-   panel.grid.minor = element_line(colour = "transparent"), 
-   strip.background = element_rect(fill = "#d6d7d9", 
-                                   colour = "#d6d7d9"), 
-   strip.text = element_text(colour = "white", 
-                             size = 12, 
-                             face = "bold"),
-   plot.background = element_rect(colour = NA), 
-   plot.title = element_text(size = 20, 
-                             face = "bold"),
-   plot.subtitle = element_text(size = 16), 
-   plot.caption = element_text(size = rel(0.9), 
-                               color = "white")
-)
-
-
 # filter for highest average playtime in each year for data labels ----------------------
 
 top_game_by_year <- games %>% 
@@ -150,26 +82,31 @@ top_game_by_year <- games %>%
 # Plot: playtime by year ----------------------------------------------------------------
 filter(games, !is.na(year), average_playtime > 0) %>% 
 ggplot(aes(x = factor(year), y = average_playtime, col = factor(year))) +
-   geom_point(alpha = 0.4) +
-   geom_label_repel(
-      data = top_game_by_year, 
-                    aes(
-                       x = factor(year), 
-                       y = average_playtime, 
-                       label = label
-                     ), 
+   geom_point(alpha = 0.5) +
+   geom_label_repel(data = top_game_by_year, 
+                    mapping = aes(x = factor(year),
+                                  y = average_playtime, 
+                                  label = label), 
                     cex = 3,
                     box.padding = 0.25,
                     label.padding = 0.25, 
                     point.padding = 0.5,
                     direction = "x",
-                    min.segment.length = unit(0, 'lines')) +
-   coord_flip() +
+                    min.segment.length = unit(0, 'lines'),
+                    show.legend = FALSE) +
+   scale_y_continuous(expand = c(0,0), limits = c(-50, NA)) +
    labs(x = "Release Year",
         y = "Average Playtime",
         title = "Steam Spy PC Games By Release Year",
-        subtitle = "Average Playtime From July 1 - 15, 2019") +
-   my_theme
+        subtitle = "Average Playtime From July 1 - 15, 2019",
+        caption = "Visualization by @carstenstann") +
+   coord_flip() +
+   theme(
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      axis.line.y = element_blank(),
+      axis.ticks.y = element_blank()
+   )
       
 title <- ggplot(data.frame(1:2, y = 1:10)) +
    labs(x = NULL,
@@ -184,12 +121,8 @@ title <- ggplot(data.frame(1:2, y = 1:10)) +
    
 caption <- ggplot(data.frame(x = 1:2, y = 1:10)) +
    labs(x = NULL, y = NULL,
-        caption = "Visualization by @carstenstann | Data: Steam Spy") +
-   theme(line = element_blank(),
-         plot.background = element_rect(fill = "transparent", color = "transparent"),
-         panel.background = element_rect(fill = "transparent"),
-         panel.border = element_rect(color = "transparent"),
-         axis.text = element_blank())
+        caption = "Visualization by @carstenstann | Data: Steam Spy")
+   
 
 title + playtime_by_year + caption + plot_layout(widths = c(0, 1, 0), nrow = 1)
 
