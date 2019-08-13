@@ -1,20 +1,24 @@
+Week 31 - Video Games
+------------------------------------------------
 
-Global Plastic Waste - Week 21
-------------------------------
+<img src="README_figs/VideoGames.png" />
 
-![Plastic Waste](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/Global%20Plastic%20Waste.png)
+Week 24 - Meteorite Strikes
+------------------------------------------------
 
-Wine Ratings - Week 22
-----------------------
+<img src="README_figs/Meteorites.png" />
 
-![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/WineRatings.png)
+Week 23 - Ramen Ratings
+------------------------------------------------
 
-Ramen Ratings - Week 23
------------------------
+<img src="README_figs/RamenRatings.png" />
 
-![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/RamenRatings.png)
+Week 2 - Wine Ratings
+------------------------------------------------
 
-Meteorite Landings - Week 24
-----------------------------
+<img src="README_figs/WineRatings.png" />
 
-![](https://raw.githubusercontent.com/carstenstann/TidyTuesdaySubmissions/master/README_figs/Meteorites.png)
+Week 21 - Global Plastic Waste
+------------------------------------------------
+
+<img src="README_figs/PlasticWaste.png" />
