@@ -77,62 +77,37 @@ top_game_by_year <- games %>%
    filter(!is.na(year), year >= 2010) %>% 
    group_by(year) %>% 
    top_n(1, average_playtime) %>% 
-   mutate(label = paste0(game, " (", year, "): ", average_playtime, " minutes"))
+   mutate(label = paste0(game, " - ", average_playtime, " minutes"))
    
 # Plot: playtime by year ----------------------------------------------------------------
+
 filter(games, !is.na(year), year >= 2010, average_playtime > 0) %>% 
 ggplot(aes(x = factor(year), y = average_playtime, col = factor(year))) +
-   geom_point(alpha = 0.5, show.legend = FALSE) +
+   geom_point(alpha = 0.8, show.legend = FALSE) +
    geom_label_repel(data = top_game_by_year, 
                     mapping = aes(x = factor(year),
                                   y = average_playtime, 
                                   label = label), 
-                    cex = 2,
+                    cex = 3.2,
                     fill = "transparent",
-                    box.padding = 0.25,
-                    label.padding = 0.25, 
-                    point.padding = 1,
-                    direction = "x",
+                    segment.alpha = 0.7,
+                    box.padding = 0.1,
+                    label.padding = 0.15, 
+                    point.padding = .2,
+                    direction = "y",
+                    nudge_y = 20,
                     min.segment.length = unit(0, 'lines'),
                     show.legend = FALSE) +
-   #geom_label(data = top_game_by_year, 
-   #           mapping = aes(x = factor(year),
-   #                         y = average_playtime,
-   #                         label = label),
-   #           nudge_x = .4,
-   #           cex = 2.5,
-   #           fill = "transparent",
-   #           show.legend = FALSE) +
-   scale_y_continuous(expand = c(0,0), limits = c(-50, 5900)) +
-   coord_flip() +
+   labs(
+      title = "Steam Spy Games: Average Playtime (July 1 - 15, 2019)",
+      subtitle = "Older games' popularity persists over time with dedicated fans",
+      x = "Release Year",
+      y = "Average Playtime",
+      caption = "Visualization by @carstenstann | Data: Steam Spy"
+   ) + 
    theme(
-      panel.grid.major.y = element_blank(),
       panel.grid.minor.y = element_blank(),
-      panel.grid.major.x = element_blank(),
-      axis.ticks.y = element_blank()
+      panel.grid.major.x = element_blank()
    )
 
-filter(games, year == 2009) %>% 
-   arrange(desc(average_playtime))
-      
-title <- ggplot(data.frame(1:2, y = 1:10)) +
-   labs(x = NULL,
-        y = NULL,
-        title = "Steam Spy PC Games By Release Year: Average Playtime From July 1 - 15, 2019") +
-   theme(line = element_blank(),
-         plot.background = element_rect(fill = "transparent", color = "transparent"),
-         panel.background = element_rect(fill = "transparent"),
-         panel.border = element_rect(color = "transparent"),
-         axis.text = element_blank())
-   
-   
-caption <- ggplot(data.frame(x = 1:2, y = 1:10)) +
-   labs(x = NULL, y = NULL,
-        caption = "Visualization by @carstenstann | Data: Steam Spy")
-   
-
-title + playtime_by_year + caption + plot_layout(widths = c(0, 1, 0), nrow = 1)
-
-
-
-
+ggsave("./README_figs/VideoGames.png", width = 36, height = 18, dpi = 320, units = "cm")
