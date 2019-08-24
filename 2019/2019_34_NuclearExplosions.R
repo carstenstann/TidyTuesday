@@ -102,6 +102,6 @@ ggplot(nuclear, aes(x = year, y = total, col = country)) +
                                     vjust = 1,
                                     face = "plain"))
 
-ggsave("./README_figs/NuclearExplosions.png", width = 12, height = 9, dpi = 320)
+ggsave("./README_figs/NuclearExplosions.png", width = 12, height = 7, dpi = 320)
 
 
