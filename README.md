@@ -1,3 +1,8 @@
+Week 34 - Nuclear Explosions
+------------------------------------------------
+
+<img src="README_figs/NuclearExplosions.png" />
+
 Week 31 - Video Games
 ------------------------------------------------
 
