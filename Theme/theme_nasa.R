@@ -23,7 +23,7 @@ theme_nasa <- theme(
                        margin = margin(),  
                        debug = FALSE),
    axis.line = element_line(color = "#d6d7d9", 
-                            size = 0.4),
+                            size = 0.3),
    axis.text = element_text(size = 10, 
                             color = "white"),
    axis.text.x = element_text(margin = margin(t = 3), 
