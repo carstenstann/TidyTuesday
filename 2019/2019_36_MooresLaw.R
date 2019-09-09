@@ -19,53 +19,6 @@ ram <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytu
 
 cpu 
 
-cpu_data <- cpu %>% 
-   filter(!is.na(transistor_count)) %>% 
-   select(date = date_of_introduction, everything()) %>% 
-   mutate(quinquennial = case_when(date < 1975 ~ 1972.5,
-                                   date < 1980 ~ 1977.5,
-                                   date < 1985 ~ 1982.5,
-                                   date < 1990 ~ 1987.5,
-                                   date < 1995 ~ 1992.5,
-                                   date < 2000 ~ 1997.5,
-                                   date < 2005 ~ 2002.5,
-                                   date < 2010 ~ 2007.5,
-                                   date < 2015 ~ 2012.5,
-                                   date < 2020 ~ 2017.5)) 
-
-ggplot(cpu_data, aes(x = quinquennial, y = transistor_count, col = factor(quinquennial))) +
-   geom_jitter(width = 1.5, alpha = 0.7) +
-   geom_boxplot(alpha = 0.0, show.legend = FALSE, col = "white", aes(group = quinquennial)) +
-   geom_text(aes(label = "CPU", x = 2000, y = 2^12), 
-             color = "white",
-             family = "Source Sans Pro Semibold",
-             size = 30,
-             hjust = 0) +
-   scale_y_continuous(trans = "log2",
-                      breaks = 2^seq(10, 36, by = 2),
-                      labels = parse(text = glue::glue("2^{seq(10, 36, by = 2)}"))) +
-   scale_color_manual(values = wes_palette(name = "Zissou1", n = 10, type = "continuous"),
-                      labels = c("1970 ~ 1974",
-                                 "1975 ~ 1979",
-                                 "1980 ~ 1984",
-                                 "1985 ~ 1989",
-                                 "1990 ~ 1994",
-                                 "1995 ~ 1999",
-                                 "2000 ~ 2004",
-                                 "2005 ~ 2009",
-                                 "2010 ~ 2014",
-                                 "2015 ~ 2019")) +
-   guides(color = guide_legend(override.aes = list(alpha = 1))) +
-   labs(title = "Moore's Law",
-        subtitle = "The number of transistors in dense integrated \ncircuits doubles about every two years",
-        x = NULL,
-        y = "Number of transistors",
-        color = "Quinquennial\n periods") + 
-   theme(legend.title = element_text(hjust = 0))
-
-ggsave("./README_figs/2019_36_MooresLaw.png", width = 8, height = 10, dpi = 320)
-
-
 # linear model --------------------------------------------------------------------------
 log_cpu <- cpu %>% 
    mutate(log_transistor = log(transistor_count, base = 2),
@@ -87,7 +40,7 @@ ggplot(model, aes(x = date, y = log_transistor, color = fct_rev(color))) +
              size = 38,
              hjust = 0) +
    geom_richtext(aes(label = "The simple log-linear model log<sub>2</sub>*transistors* = \u03B1 + \u03B2*year* <br>yields a coefficient of 0.49, remarkably close to <br>Moore's theoretical value of 0.5", 
-                 x = 1972.5, 
+                 x = 1970, 
                  y = log(2^32, base = 2)),
                  hjust = 0,
                  fill = NA,
