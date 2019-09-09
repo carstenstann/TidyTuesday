@@ -1,3 +1,11 @@
+Week 36 - Moore's LAw
+------------------------------------------------
+<img src="README_figs/2019\-36_MooresLaw.png" />
+
+Week 35 - Simpsons Guest Stars
+------------------------------------------------
+<img src="README_figs/Simpsons.png" />
+
 Week 34 - Nuclear Explosions
 ------------------------------------------------
 <img src="README_figs/NuclearExplosions.png" />
