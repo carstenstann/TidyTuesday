@@ -1,6 +1,6 @@
-Week 36 - Moore's LAw
+Week 36 - Moore's Law
 ------------------------------------------------
-<img src="README_figs/2019\-36_MooresLaw.png" />
+<img src="README_figs/2019_36_MooresLaw.png" />
 
 Week 35 - Simpsons Guest Stars
 ------------------------------------------------
