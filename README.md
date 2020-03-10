@@ -1,6 +1,6 @@
 2020 Week 10 - NHL Goals
 ------------------------------------------------
-<img src="README_figs/2020_310_NHL_Goals.png" />
+<img src="README_figs/2020_10_NHL_Goals.png" />
 
 2019 Week 36 - Moore's Law
 ------------------------------------------------
