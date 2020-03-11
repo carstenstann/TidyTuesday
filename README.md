@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-:email: [Email](mailto:carsten.stann@gmail.com)  |
+:email: <a href=mailto:carsten.stann@gmail.com>Email</a> |
 :speech_balloon: [Twitter](https://twitter.com/carsten_stann) 
 :camera: [Instagram](https://www.instagram.com/carsten.stann/) 
 :necktie: [LinkedIn](https://www.linkedin.com/in/carsten-stann/) 
