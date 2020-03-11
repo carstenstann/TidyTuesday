@@ -3,9 +3,9 @@
 </h1>
 
 <p align="center">
-   :email: :[Email](mailto:carsten.stann@gmail.com)
+   :email: [Email](mailto:carsten.stann@gmail.com)
    :speech_balloon: [Twitter](https://twitter.com/carsten_stann)
-   :camera: :[Instagram](https://www.instagram.com/carsten.stann/)
+   :camera: [Instagram](https://www.instagram.com/carsten.stann/)
    :necktie: [LinkedIn](https://www.linkedin.com/in/carsten-stann/)
 </p>
 
