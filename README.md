@@ -3,10 +3,10 @@
 </h1>
 
 <p align="center">
-   :email: [Email](mailto:carsten.stann@gmail.com)
-   :speech_balloon: [Twitter](https://twitter.com/carsten_stann)
-   :camera: [Instagram](https://www.instagram.com/carsten.stann/)
-   :necktie: [LinkedIn](https://www.linkedin.com/in/carsten-stann/)
+   :email: [Email](mailto:carsten.stann@gmail.com) 
+   :speech_balloon: [Twitter](https://twitter.com/carsten_stann) 
+   :camera: [Instagram](https://www.instagram.com/carsten.stann/) 
+   :necktie: [LinkedIn](https://www.linkedin.com/in/carsten-stann/) 
 </p>
 
 #### [2020 Week 10](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-03-03/readme.md) NHL Goals - Data via [HockeyReference.com](https://www.hockey-reference.com/leaders/goals_career.html) 
