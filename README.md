@@ -4,9 +4,9 @@
 
 <p align="center">
 :email: <a href=mailto:carsten.stann@gmail.com>Email</a> |
-:speech_balloon: [Twitter](https://twitter.com/carsten_stann) 
-:camera: [Instagram](https://www.instagram.com/carsten.stann/) 
-:necktie: [LinkedIn](https://www.linkedin.com/in/carsten-stann/) 
+:speech_balloon: <a href=https://twitter.com/carsten_stann>Twitter</a> |
+:camera: <a href=https://www.instagram.com/carsten.stann/>Instagram</a> |
+:necktie: <a href=https://www.linkedin.com/in/carsten-stann/>LinkedIn</a> |
 </p>
 
 #### [2020 Week 10](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-03-03/readme.md) NHL Goals - Data via [HockeyReference.com](https://www.hockey-reference.com/leaders/goals_career.html) 
