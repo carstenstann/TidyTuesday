@@ -2,7 +2,6 @@
   #TidyTuesday Challenge
 </h1>
 
-***
 <p align="center">
    :email: :[Email](mailto:carsten.stann@gmail.com)
    :speech_balloon: [Twitter](https://twitter.com/carsten_stann)
